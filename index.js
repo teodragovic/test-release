@@ -7,6 +7,8 @@ const Promise = require('bluebird');
 var Git = require('./bin/git-log');
 var md = require('./bin/markdown');
 
+var config = require('/.config');
+
 const pathTo = path.join.bind(null, process.cwd());
 
 var pkg = require('./package.json');
@@ -17,7 +19,7 @@ var github = new Github({
 
 var auth = {
     type: 'oauth',
-    token: '264dbe2586a96bbbe2718f716197098b63857ec6'
+    token: config.GITHUB_TOKEN
 };
 
 
