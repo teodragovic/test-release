@@ -5,20 +5,27 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "commit": "git add . && git-cz"
+    "commit": "git add . && git-cz",
+    "release": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "bluebird": "3.4.3",
     "commitizen": "2.8.6",
     "cz-conventional-changelog": "1.2.0",
     "generate-changelog": "1.0.2",
-    "github": "2.5.2"
+    "github": "2.5.2",
+    "q": "1.4.1"
   },
   "config": {
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teodragovic/test-release.git"
   }
 }
