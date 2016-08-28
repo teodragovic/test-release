@@ -65,8 +65,10 @@ function makeRelease() {
 
 function getLogs() {
     return Git.getCommits()
-        .then(data => md.markdown(data, pkg.repository.url);
+        .then(data => md.markdown(data, pkg.repository.url)).then(data => console.log('bla',data));
 }
+
+getLogs();
 
 /*function getReleaseId() {
     Q.nfcall(github.repos.getLatestRelease, {
@@ -80,7 +82,7 @@ function getLogs() {
 
 
 function getVersion() {
-    return pkg.version;
+    return 'v' + pkg.version;
 }
 
 function getRepo() {
