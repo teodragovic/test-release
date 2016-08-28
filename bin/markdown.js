@@ -40,7 +40,7 @@ exports.markdown = function (commits, repoUrl) {
   .each(function (type) {
     var types = this.types;
 
-    content.push('##### ' + TYPES[type]);
+    content.push('#### ' + TYPES[type]);
     content.push('');
 
     Object.keys(this.types[type]).forEach(function (category) {

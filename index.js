@@ -1,12 +1,11 @@
 'use strict';
 
 var Github = require('github');
-var Q = require('q');
 var path = require('path');
 const Promise = require('bluebird');
 
-var Git = require('generate-changelog/lib/git');
-var md = require('./markdown');
+var Git = require('./bin/git-log');
+var md = require('./bin/markdown');
 
 const pathTo = path.join.bind(null, process.cwd());
 
@@ -24,16 +23,21 @@ var auth = {
 
 github.authenticate(auth);
 
+function getLogs() {
+    return Git.getCommits()
+        .then(data => md.markdown(data, pkg.repository.url));
+}
+
 function release(logs) {
     return new Promise((resolve, reject) =>
         github.repos.createRelease({
             user: getOwner(),
             repo: getRepo(),
-            tag_name: getVersion(),
-            name: getVersion(),
-            body: logs
+            tag_name: 'v2.0.0',
+            name: 'test',
+            body: '* testing...'
         }, (err, resp) => {
-            if (err) reject(err);
+            if (err) reject(err)
             resolve(resp);
         })
     );
@@ -57,29 +61,13 @@ function uploadAsset(id) {
 function makeRelease() {
 
     getLogs()
-    .then(data => release(data))
-    .then(resp => console.log(resp));
-    // izvuci release id i zovi upload asset
+        .then(data => release(data))
+        .then(release => uploadAsset(release.id))
+        .catch(err => console.log('wild error appears', err));
 
 }
 
-function getLogs() {
-    return Git.getCommits()
-        .then(data => md.markdown(data, pkg.repository.url)).then(data => console.log('bla',data));
-}
-
-getLogs();
-
-/*function getReleaseId() {
-    Q.nfcall(github.repos.getLatestRelease, {
-        user: getOwner(),
-        repo: getRepo()
-    })
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
-}*/
-
-
+makeRelease();
 
 function getVersion() {
     return 'v' + pkg.version;
@@ -98,10 +86,9 @@ function getOwner() {
 }
 
 function getAssetName() {
-     return pkg.name + '-' + pkg.version + '.zip';
+    return pkg.name + '-' + pkg.version + '.zip';
 }
 
 function getFilePath() {
     return pathTo('assets', 'test.zip');
 }
-

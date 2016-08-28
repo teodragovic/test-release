@@ -15,9 +15,7 @@
     "bluebird": "3.4.3",
     "commitizen": "2.8.6",
     "cz-conventional-changelog": "1.2.0",
-    "generate-changelog": "1.0.2",
-    "github": "2.5.2",
-    "q": "1.4.1"
+    "github": "2.5.2"
   },
   "config": {
     "commitizen": {
